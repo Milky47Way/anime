@@ -13,7 +13,6 @@ class Genres(models.Model):
     def __str__(self):
         return self.genre
 
-
 class Author(models.Model):
     name = models.CharField(max_length=100)
 
@@ -22,7 +21,7 @@ class Author(models.Model):
         verbose_name_plural = "Автори"
 
     def __str__(self):
-        return self.author
+        return self.name
 
 class DubStudio(models.Model):
     name = models.CharField(max_length=100)
@@ -42,9 +41,9 @@ class Anime(models.Model):
 
     genre = models.ForeignKey(Genres, on_delete=models.SET_NULL, null=True, blank=True, related_name="anime")
     author = models.ForeignKey(Author, on_delete=models.SET_NULL, null=True, blank=True, related_name="authored_anime")
-    dubStudio = models.ForeignKey("DubStudio", on_delete=models.SET_NULL, null=True)
+    dubStudio = models.ForeignKey(DubStudio, on_delete=models.SET_NULL, null=True)
 
-    release = models.DateTimeField(verbose_name="Рік релізу")
+    release = models.DateField(verbose_name="Дата релізу")
     trailer_url = models.URLField(blank=True)
 
     rating = models.DecimalField(max_digits=3, decimal_places=1, default=0.0, validators=[MinValueValidator(0.0), MaxValueValidator(10.0)])
@@ -54,5 +53,4 @@ class Anime(models.Model):
         verbose_name_plural = "Аніме"
 
     def __str__(self):
-        return self.name
-
+        return self.title
